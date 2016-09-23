@@ -28,6 +28,15 @@
     },
     "storageAcctName": {
       "value": "GEN-UNIQUE-16"
+    },
+    "serviceBusNamespaceName": {
+        "value": "GEN-UNIQUE"
+    },
+    "serviceBusQueueName": {
+        "value": "GEN-UNIQUE"
+    },
+    "serviceBusApiVersion": {
+        "value": "2015-08-01"
     }
   }
 }
