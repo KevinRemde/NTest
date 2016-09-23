@@ -46,6 +46,31 @@
       "metadata": {
         "description": "Admin password on all VMs."
       }
+    },
+    "databaseAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "The DocumentDB database account name."
+      }
+    },
+    "logicAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the logic app to create."
+      }
+    },
+    "testUri": {
+      "type": "string",
+      "defaultValue": "http://azure.microsoft.com/en-us/status/feed/",
+      "metadata": {
+        "description": "A test URI"
+      }
+    },
+    "storageAcctName": {
+      "type": "string",
+      "metadata": {
+        "description": "A DNS-unique storage account name."
+      }
     }
   },
   "variables": {
@@ -98,7 +123,8 @@
     "computeApiVersion": "2016-03-30",
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15",
-    "insightsApiVersion": "2015-04-01"
+    "insightsApiVersion": "2015-04-01",
+    "dbofferType": "Standard"
   },
   "resources": [
     {
@@ -138,6 +164,15 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('diagnosticsStorageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },    
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageAcctName')]",
       "location": "[resourceGroup().location]",
       "apiVersion": "[variables('storageApiVersion')]",
       "properties": {
@@ -355,6 +390,58 @@
             ]
           }
         ]
+      }
+    },
+    {
+      "apiVersion": "2015-04-08",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "name": "[parameters('databaseAccountName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[parameters('databaseAccountName')]",
+        "databaseAccountOfferType": "[variables('dbofferType')]"
+      }
+    },
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('logicAppName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "LogicApp"
+      },
+      "properties": {
+        "definition": {
+          "$schema": "http://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "testURI": {
+              "type": "string",
+              "defaultValue": "[parameters('testUri')]"
+            }
+          },
+          "triggers": {
+            "recurrence": {
+              "type": "recurrence",
+              "recurrence": {
+                "frequency": "Hour",
+                "interval": 1
+              }
+            }
+          },
+          "actions": {
+            "http": {
+              "type": "Http",
+              "inputs": {
+                "method": "GET",
+                "uri": "@parameters('testUri')"
+              },
+              "runAfter": {}
+            }
+          },
+          "outputs": {}
+        },
+        "parameters": {}
       }
     }
   ]

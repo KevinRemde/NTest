@@ -19,6 +19,15 @@
     },
     "adminPassword": {
       "value": "GEN-PASSWORD"
+    },
+    "databaseAccountName": {
+      "value": "GEN-UNIQUE"
+    },
+    "logicAppName": {
+      "value": "LogicAppName"
+    },
+    "storageAcctName": {
+      "value": "GEN-UNIQUE-16"
     }
   }
 }
