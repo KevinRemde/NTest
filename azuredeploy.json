@@ -48,7 +48,14 @@
       "metadata": {
         "description": "Admin password on all VMs."
       }
-    }
+    },
+		"assetLocation" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The location of resources such as templates, DSC modules and files upon which the script is dependent."
+			},
+			"defaultValue": "https://raw.githubusercontent.com/KevinRemde/NTest/master/"
+		}
   },
   "variables": {
     "storageAccountType": "Standard_LRS",

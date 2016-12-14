@@ -83,7 +83,7 @@ $parameterObject = @{
     "vmSku" = "Standard_D2"
     "windowsOSVersion" = "2016-Datacenter"
     "vmssName" = "karss"
-    "instanceCount" = 1
+    "instanceCount" = 3
     "adminUsername" = "NAdmin"
     "adminPassword" = "Passw0rd!"  # comment out to be prompted for secured-string password at deployment time
 }

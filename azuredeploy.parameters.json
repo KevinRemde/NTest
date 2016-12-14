@@ -19,6 +19,9 @@
     },
     "adminPassword": {
       "value": "GEN-PASSWORD"
+    },
+    "assetLocation": {
+      "value" : "https://raw.githubusercontent.com/KevinRemde/NTest/master/"
     }
   }
 }
